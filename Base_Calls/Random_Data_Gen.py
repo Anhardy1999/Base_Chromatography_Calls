@@ -21,7 +21,7 @@ def random_gen(calls = 4, rows = 1000):
 
   names = []
   i = 1
-  for i in range(1,5):
+  for i in range(1,calls+1):
       for base in bases:
           col_name = base + '_' + str(i)
           names.append(col_name)
