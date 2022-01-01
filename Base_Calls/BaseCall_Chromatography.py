@@ -3,7 +3,7 @@ import numpy as np
 
 
 class BaseCalls():
-    
+
     def __init__(self, df):
         ''' Makes base calls on the provided dataframe. Adds a call column at the end of each set of bases (ACGT)
         Function is based on the randomly generated dataset where bases start with A and end with T. '''
@@ -116,4 +116,6 @@ class BaseCalls():
             N_tally.append(N_counts)
 
         return base_call_errors, N_tally
+
+
 
