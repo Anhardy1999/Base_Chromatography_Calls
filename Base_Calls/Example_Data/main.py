@@ -1,8 +1,7 @@
-from pandas.core import base
 from BaseCall_Chromatography import BaseCalls
 from random_data_gen import RandomGen
 import pandas as pd
-import numpy as np
+
 
 df_1 = RandomGen()
 df_1.write_to_csv('Random_Gen_1')
