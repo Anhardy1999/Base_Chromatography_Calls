@@ -3,8 +3,10 @@ import numpy as np
 
 
 class BaseCalls():
-
+    
     def __init__(self, df):
+        ''' Makes base calls on the provided dataframe. Adds a call column at the end of each set of bases (ACGT)
+        Function is based on the randomly generated dataset where bases start with A and end with T. '''
         self.df = df
 
     def processing_dfs(self):
@@ -25,8 +27,7 @@ class BaseCalls():
             for determining when a call calculation should be made. 
             
             The function checks for the greatest value between the four bases. Conditions 
-            are set for each column and will add the base with the highest "color" reading 
-            to the designated column (call_1 or call_2 in the context of this example). 
+            are set for each column and will add the base with the value.
             
             N is set inplace if the max value between the bases is 0 as that indicates an unclear base call. 
         '''
