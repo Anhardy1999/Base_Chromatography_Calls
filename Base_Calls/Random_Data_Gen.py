@@ -3,6 +3,8 @@ import pandas as pd
 import numpy as np
 
 
+# Randomly generates simple datasets
+
 class RandomGen():
     ''' Creates a simple dataframe that contains random floats between 0 and 1 for bases ACGT.
     For basic base calling algorithms.
@@ -105,7 +107,7 @@ class RandomGen():
         return df.to_csv(name+'.csv', index = False)
 
 
-    def random_failed_calls(self, perc = .2, n = False):
+    def random_failed_calls(self, perc_error = .2, N = False, perc_n_replacement = 0.02):
         ''' Will generate random 0s in rows to simulate failed base calls. Defaults: .2, False
             Parameters:
                 perc: the fraction of error you would like to have in the file
@@ -113,22 +115,28 @@ class RandomGen():
             Returns: Randomly generated dataframe with errors
         '''
 
-        if perc <= 1 and perc >= 0:
+        if perc_error <= 1 and perc_error >= 0:
             df = self.df_ref
             refs = list(df.filter(like = 'ref').columns.values)
             A = list(df.filter(like = 'A').columns.values)
             T = list(df.filter(like= 'T').columns.values)
-            i = 1
             for ref in refs:
-                sample_ref = df[ref].sample(frac = perc)
-                df.loc[sample_ref.index, ref] = random.choice(['A', 'C', 'G', 'T'])
-            if n == True:
-                for a, t in zip(A, T):
-                    ref_start = a
-                    ref_end = t
-                    base_range = list(df.loc[:, ref_start:ref_end].columns.values)
-                    sample = df[base_range].sample(frac = (perc))
-                    df.loc[sample.index, sample.columns.values] = 0
+                new_bases = []
+                sample_ref = df[ref].sample(frac = perc_error)
+                for i in range(len(df.loc[sample_ref.index])):
+                    new_bases.append(random.choice(['A', 'C', 'G', 'T']))
+                df.loc[sample_ref.index, ref] = new_bases
+            if N == True:
+                if perc_n_replacement <= 1 and perc_n_replacement >= 0:
+                    for a, t in zip(A, T):
+                        ref_start = a
+                        ref_end = t
+                        base_range = list(df.loc[:, ref_start:ref_end].columns.values)
+                        sample = df[base_range].sample(frac = (perc_n_replacement))
+                        df.loc[sample.index, sample.columns.values] = 0
             return df
         else:
             raise ValueError(f'Not a valid fraction value. Please put in a value in range 0-1')
+
+      
+
