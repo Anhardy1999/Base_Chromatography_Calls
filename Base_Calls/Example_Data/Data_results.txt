@@ -1,4 +1,4 @@
-1 + Error Simulation Base Call Error:
+1 + Standard Simulation Base Call Error:
  A [0.0, 0.0, 0.0, 0.0]
  C [0.0, 0.0, 0.0, 0.0]
 
