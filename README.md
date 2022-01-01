@@ -8,7 +8,7 @@ Has the option of generating random errors including:
 
 ##  BaseCall_Chromatography: 
 Makes basecalls based on the structure of the randomly generated dataset.
-- Processes the df by making sure all values are converted to floats
+- Processes the dataframe by making sure all values are converted to floats
 - Calls bases and marks any call that doesn't have values (a row of 0s) as N symbolizing a failed called from the chromatography algorithm.
 - Calculates the overall error of the algorithm. 
 
