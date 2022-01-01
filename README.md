@@ -12,4 +12,7 @@ Makes basecalls based on the structure of the randomly generated dataset.
 - Calls bases and marks any call that doesn't have values (a row of 0s) as N symbolizing a failed called from the chromatography algorithm.
 - Calculates the overall error of the algorithm. 
 
+## Example Datasets
+[Randomly Generated with no errors](Base_Calls/Randomly_Generated_Data.csv)
 
+[Randomly Generated with Errors](Base_Calls/Sample_Generated_Data_w_Errors.csv)
