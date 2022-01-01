@@ -13,6 +13,11 @@ Makes basecalls based on the structure of the randomly generated dataset.
 - Calculates the overall error of the algorithm. 
 
 ## Example Datasets
-[Randomly Generated with no errors](Base_Calls/Randomly_Generated_Data.csv)
+[Randomly Generated with no errors](Base_Calls/Example_Data/Random_Gen_1.csv)
 
-[Randomly Generated with Errors](Base_Calls/Sample_Generated_Data_w_Errors.csv)
+[Randomly Generated with errors](Base_Calls/Example_Data/Random_Gen_2.csv)
+
+### Main.py
+- Sample code using both python programs creates a randomly generated file and results. Outputs a textfile with the errors and accuracies of the simulated data.
+
+[Simulation_Results.txt](https://github.com/Anhardy1999/Base_Chromatography_Calls/files/7798248/Simulation_Results.txt)
