@@ -117,5 +117,20 @@ class BaseCalls():
 
         return base_call_errors, N_tally
 
-
-
+    def return_heatmap(self, ref = 'ref_1', call = 'call_1', title = 'Reference Call Heatmap'):
+        ''' Returns a heatmap of incorrect calls for a specified reference. By default ref and call are
+        set to the first appearances. A default title "Reference Call Heatmap" is also set.
+        Parameters:
+        ref: the reference sequence you would like to use
+        call: the call associated with the reference sequence
+        title: what you would like to call the sequence'''
+        df = self.df
+        matrix = confusion_matrix(df[ref], df[call])
+        fig, ax = plt.subplots(figsize=(10,10))
+        ax = sns.heatmap(matrix, annot = True, cmap = 'BuPu', fmt = 'g')
+        ax.set_title(title)
+        names = df.groupby([call]).apply(lambda x: x[ref].value_counts().index[0])
+        names = ['A', 'C', 'G', 'N', 'T']
+        ax.xaxis.set_ticklabels(names)
+        ax.yaxis.set_ticklabels(names)
+        fig.savefig(title+'.png')
