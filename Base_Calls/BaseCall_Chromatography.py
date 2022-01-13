@@ -34,14 +34,12 @@ class BaseCalls():
         df = self.df
 
         bases = ['N', 'A', 'C', 'G', 'T']
-        
-        A = list(df.filter(like = 'A').columns.values)
-        T = list(df.filter(like= 'T').columns.values)
+        refs = list(df.filter(like='ref').columns.values)
         i = 1
-        for a, t in zip(A, T):
-            ref_start = a
-            ref_end = t
-            base_range = list(df.loc[:, ref_start:ref_end].columns.values)
+        cur = df.iloc[:,df.columns.get_indexer(refs)+1]
+        cur_next = df.iloc[:,df.columns.get_indexer(refs)+4]
+        for c, cn in zip(cur,cur_next):
+            base_range = list(df.loc[:,c:cn].columns.values)
             conditions = [
                 (df[base_range[0:]].max(axis = 1) == 0),
                 (df[base_range[0:]].idxmax(axis = 1) == base_range[0]),
@@ -54,7 +52,7 @@ class BaseCalls():
             data = np.select(conditions, bases)
             if call_name in df.columns:
                 df = df.drop(call_name, axis = 1)
-            loc = df.columns.get_loc(t)+1
+            loc = df.columns.get_loc(cn)+1
             df.insert(loc, call_name, data)
         
         return df
@@ -73,7 +71,7 @@ class BaseCalls():
             
         ''' Determining the mean error between the two calls of each method '''
         mean_error = (abs(sum(error)))/len(error)
-        return accuracy, error, mean_error
+        return error, mean_error
 
     def base_call_error(self): 
         ''' Calculates the error for each base in the method.
@@ -88,7 +86,12 @@ class BaseCalls():
 
         df = self.df   
         bases = ['A', 'C', 'G', 'T', 'N']
+
         base_call_errors = []
+        a_error = []
+        c_error = []
+        g_error = []
+        t_error = []
         N_tally = []
 
         ref_seqs = list(df.filter(like='ref').columns.values)
@@ -103,18 +106,23 @@ class BaseCalls():
                         correct_call += 1
                 if base == 'A':
                     A_error = abs((correct_call - ref)/ref)*100
+                    a_error.append(A_error)
                 elif base == 'C':
                     C_error = abs((correct_call - ref)/ref)*100
+                    c_error.append(C_error)
                 elif base == 'G':
                     G_error = abs((correct_call - ref)/ref)*100
+                    g_error.append(G_error)
                 elif base == 'T':
                     T_error = abs((correct_call - ref)/ref)*100
+                    t_error.append(T_error)
                 else:
                     N_counts = len(df[df[call] == base])
                     
-            base_call_errors.extend([[A_error, C_error, G_error, T_error]])
             N_tally.append(N_counts)
 
+        base_call_errors.extend([a_error, c_error, g_error, t_error])
+        print(len(base_call_errors))
         return base_call_errors, N_tally
 
     def return_heatmap(self, ref = 'ref_1', call = 'call_1', title = 'Reference Call Heatmap'):
@@ -133,4 +141,4 @@ class BaseCalls():
         names = ['A', 'C', 'G', 'N', 'T']
         ax.xaxis.set_ticklabels(names)
         ax.yaxis.set_ticklabels(names)
-        fig.savefig(title+'.png')
+        return fig
