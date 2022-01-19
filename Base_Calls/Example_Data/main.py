@@ -6,7 +6,7 @@ import sys
 
 df_1 = RandomGen()
 df_1.write_to_csv('Random_Gen_1')
-df_2 = df_1.random_failed_calls(N = True)
+df_2 = df_1.random_failed_calls(0,0.2,0,0.2,N = True)
 df_2.to_csv('Random_Gen_2.csv', index=False)
 
 
